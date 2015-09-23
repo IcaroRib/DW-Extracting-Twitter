@@ -53,8 +53,8 @@ public class App {
 		Database db = new Database();
 		
 	    Query query = new Query("#Dilma");
-	    //query.setSince("2015-01-01");
-	    query.setUntil("2015-09-14");
+	    query.setSince("2015-01-01");
+	    query.setUntil("2015-09-11");
 	    query.setCount(106);
 	    QueryResult result;
 	    long maxId = 0;
