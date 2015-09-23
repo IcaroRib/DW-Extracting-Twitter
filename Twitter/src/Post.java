@@ -5,8 +5,8 @@ import twitter4j.GeoLocation;
 
 public class Post {
 	
-	private long id;
-	private long idTweetOrigin;
+	private Long id;
+	private Long idTweetOrigin;
 	private String conteudo;
 	private Date data;
 	private GeoLocation local;
@@ -18,6 +18,7 @@ public class Post {
 	private String hashtag;
 	private String assunto;
 	private User autor;	
+	private Post postOrigin;
 	private String fonte;
 	
 	
@@ -58,10 +59,10 @@ public class Post {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public long getIdTweetOrigin() {
+	public Long getIdTweetOrigin() {
 		return idTweetOrigin;
 	}
-	public void setIdTweetOrigin(long idTweetOrigin) {
+	public void setIdTweetOrigin(Long idTweetOrigin) {
 		this.idTweetOrigin = idTweetOrigin;
 	}
 	public String getConteudo() {
@@ -105,6 +106,12 @@ public class Post {
 	}
 	public void setQtdRepostas(int qtdRepostas) {
 		this.qtdRepostas = qtdRepostas;
+	}
+	public Post getPostOrigin() {
+		return postOrigin;
+	}
+	public void setPostOrigin(Post postOrigin) {
+		this.postOrigin = postOrigin;
 	}
 	
 	
