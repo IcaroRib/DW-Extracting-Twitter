@@ -3,6 +3,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 
 public class Database {
@@ -11,7 +12,6 @@ public class Database {
 	
 	public User procurarUsuario(User user) throws SQLException{
 		
-		//String query = "SELECT * FROM usuario INNER JOIN id_local_origem WHERE id_local_origem = id_local and id_usuario_twitter = " + user.getId();
 		String query = "SELECT * FROM usuario_twitter WHERE id_usuario_twitter = " + user.getId();
 		Statement st = ((Connection) conn).createStatement();
 		System.out.println(query);
@@ -20,7 +20,6 @@ public class Database {
 		User selectedUser = new User(); 
 		while(rs.next()){
 			selectedUser.setId(rs.getLong("id_usuario_twitter"));
-			selectedUser.setDataNascimento(rs.getDate("data_nascimento"));
 			//selectedUser.setLocal(rs.getString("cidade") + " " + rs.getString("estado") + " " + rs.getString("pais"));
 			selectedUser.setNome(rs.getString("nome"));
 			selectedUser.setQtdSeguidores(rs.getInt("qtd_seguidores"));
@@ -37,10 +36,9 @@ public class Database {
 
 		if (novoAutor == null) {
 			
-			java.sql.Date sqlDate = new java.sql.Date (user.getDataNascimento().getTime());
-			String query = "INSERT INTO usuario_twitter (id_usuario_twitter, nome, qtd_seguidores, data_nascimento) VALUES ( '" + user.getId() +				
+			String query = "INSERT INTO usuario_twitter (id_usuario_twitter, nome, qtd_seguidores) VALUES ( '" + user.getId() +				
 					 "', '" + user.getNome() +
-					 "', '" + user.getQtdSeguidores() + "' , '" + sqlDate + "')";
+					 "', '" + user.getQtdSeguidores() + "')";
 			Statement st = ((Connection) conn).createStatement();
 			System.out.println(query);
 			st.execute(query);
@@ -77,12 +75,16 @@ public class Database {
 		return 0;
 	}
 	
-	public void inserirPost(Post post){
+	public int inserirPost(Post post){
 		
 		try {
 			
 			this.insertAutor(post.getAutor());			
-			long idAssunto = this.insertAssunto(post);
+			int idhashtag = this.insertHashtag(post);
+			int idLocal = 1;
+			if(post.getLocal() != null){
+				idLocal = this.insertLugar(post);
+			}
 			Timestamp sqlTime = new Timestamp(post.getData().getTime());
 			java.sql.Date sqlDate = new java.sql.Date (post.getData().getTime());
 			
@@ -91,7 +93,7 @@ public class Database {
 				
 				if(this.procurarPost(post) == 0){
 				
-					String query = "INSERT INTO post (id_post, texto, data, hora, id_usuario_twitter,qtd_likes,qtd_retweets,id_tweet_orig,id_assunto) "+ ""
+					String query = "INSERT INTO post (id_post, texto, data, hora, id_usuario_twitter,qtd_likes,qtd_retweets,id_tweet_orig,id_local,hashtag_idhashtag) "+ ""
 							+ "VALUES ( '" + post.getId() 
 							+ "', '" + post.getConteudo()
 							+ "', '" + sqlDate 
@@ -100,18 +102,21 @@ public class Database {
 							+ "', '" + post.getQtdLikes()
 							+ "', '" + post.getQtdRetweets()
 							+ "', '" + post.getIdTweetOrigin()
-							+ "' , '" + idAssunto + "')";
+							+ "', '" + idLocal
+							+ "' , '" + idhashtag + "')";
 					
 					Statement st = ((Connection) conn).createStatement();
 					System.out.println(query);
 					st.execute(query); 
+					
+					return 1;
 				}
 			}
 			
 			else{
 			
 				if(this.procurarPost(post) == 0){
-					String query = "INSERT INTO post (id_post, texto, data, hora, id_usuario_twitter,qtd_likes,qtd_retweets,id_assunto) "+ ""
+					String query = "INSERT INTO post (id_post, texto, data, hora, id_usuario_twitter,qtd_likes,qtd_retweets,id_local,hashtag_idhashtag) "+ ""
 							+ "VALUES ( '" + post.getId() 
 							+ "', '" + post.getConteudo()
 							+ "', '" + sqlDate 
@@ -119,11 +124,14 @@ public class Database {
 							+ "', '" + post.getAutor().getId()
 							+ "', '" + post.getQtdLikes()
 							+ "', '" + post.getQtdRetweets()
-							+ "' , '" + idAssunto + "')";
+							+ "', '" + idLocal
+							+ "' , '" + idhashtag + "')";
 					
 					Statement st = ((Connection) conn).createStatement();
 					System.out.println(query);
 					st.execute(query); 
+					
+					return 1;
 				}
 			}
 		}
@@ -134,22 +142,50 @@ public class Database {
 		} finally {
 
 			ConnectionDB.desconnect();
-		}	
+		}
+		return 0;	
 		
 	}
 
-	private int insertAssunto(Post post) throws SQLException {
-		String query = "SELECT * FROM assunto_twitter WHERE hashtag = '" + post.getHashtag() + "' and assunto = '" +post.getAssunto()  + "'";
+	private int insertHashtag(Post post) throws SQLException {
+		String query = "SELECT * FROM hashtag WHERE hashtag = '" + post.getHashtag() + "'";
 		Statement st = ((Connection) conn).createStatement();
 		System.out.println(query);
 		ResultSet rs = st.executeQuery(query);	
 		
 		while(rs.next()){
-			return rs.getInt("id_assunto_twitter");
+			return rs.getInt("idhashtag");
 		}
-		query = "INSERT INTO assunto_twitter(hashtag,assunto) VALUES ( '" + post.getHashtag() + "', '" + post.getAssunto() + "')";
+		query = "INSERT INTO hashtag(hashtag) VALUES ( '" + post.getHashtag() + "')";
 		System.out.println(query);
-		return st.executeUpdate(query);
+		int idhashtag = st.executeUpdate(query);
+		query = "INSERT INTO hashtag_has_assunto_twitter(hashtag_idhashtag,assunto_twitter_id_assunto_twitter) VALUES ( '" + idhashtag + "', ' 1')";
+		System.out.println(query);
+		st.executeUpdate(query);
+		
+		return idhashtag;
+	}
+	
+	private int insertLugar(Post post) throws SQLException{
+		String query = "SELECT * FROM local WHERE latitude = '" + post.getLocal().getLatitude() + "' and longitude = '" + post.getLocal().getLongitude() + "'";
+		Statement st = ((Connection) conn).createStatement();
+		System.out.println(query);
+		ResultSet rs = st.executeQuery(query);	
+		
+		while(rs.next()){
+			return rs.getInt("id_local");
+		}
+		MapSearch ms = new MapSearch();
+		ArrayList<String> locais = ms.procurarLocais(post.getLocal().getLatitude(), post.getLocal().getLongitude());
+		query = "INSERT INTO local(cidade,estado,pais,latitude,longitude) VALUES ('" + locais.get(0)
+				+ "','" + locais.get(1)
+				+ "','" + locais.get(2)
+				+ "','" + post.getLocal().getLatitude()
+				+ "','" + post.getLocal().getLongitude()
+				+ "')";
+		System.out.println(query);
+		return st.executeUpdate(query);		
+		
 	}
 	
 }

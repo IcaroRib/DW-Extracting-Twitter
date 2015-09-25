@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
@@ -12,7 +18,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class Extrator {
 	
-	private String[] hashTags = {"#foradilma","#dilmagolpista","#dilmafica","#pt",""};
+	private String[] hashTags = {"#dilmagolpista","#dilmafica","#pt","#dilma","#foradilma"};
 	private ConfigurationBuilder builder = new ConfigurationBuilder();
 	
 	public Post setRecursivo(Status status, String hashtag){
@@ -24,7 +30,7 @@ public class Extrator {
 			autor.setNome(status.getUser().getName().replace("'", ""));
 			autor.setQtdSeguidores(status.getUser().getFollowersCount());
 			autor.setQtdAmigos(status.getUser().getFriendsCount());
-			autor.setLocal(status.getUser().getLocation().replace("'", ""));		
+			autor.setLocal(status.getUser().getLocation().replace("'", ""));
 		}
 		
 		Post post = new Post();
@@ -66,6 +72,7 @@ public class Extrator {
 	}
 	
 	public void ExtrairTweets(){
+		
 		Twitter twitter = this.gerarConexao();		
 		Database db = new Database();
 		
@@ -73,8 +80,9 @@ public class Extrator {
 			
 			Query query = new Query(hashTag);
 		    query.setSince("2015-01-01");
-		    if (hashTag.equals("#foradilma")){
-		    query.setUntil("2015-09-09");}
+		    if(hashTag.equals("#dilmagolpista")){
+	    	query.setSince("2015-09-18 20:43:41");
+		    }
 		    QueryResult result;
 		    long maxId = 0;
 			try {
@@ -94,7 +102,6 @@ public class Extrator {
 					}
 					
 					for (Status status : result.getTweets()) {
-						
 						Post post = this.setRecursivo(status,hashTag);
 						db.inserirPost(post);
 						maxId = post.getId();	
@@ -106,7 +113,7 @@ public class Extrator {
 					}
 				
 				}
-			} catch (TwitterException e) {
+			} catch (Exception e) {
 				continue;
 			}
 			

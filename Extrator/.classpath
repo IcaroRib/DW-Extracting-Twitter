@@ -8,5 +8,36 @@
 	<classpathentry kind="lib" path="C:/Users/Icaro/workspace/Twitter/twitter4j-media-support-4.0.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Icaro/workspace/Twitter/twitter4j-stream-4.0.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/Extrator/mysql-connector-java-5.0.8-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/google-api-services-mapsengine-v1-rev64-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/google-api-services-mapsengine-v1-rev64-1.20.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/google-api-services-mapsengine-v1-rev64-1.20.0-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-api-client-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-api-client-android-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-api-client-appengine-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-api-client-gson-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-api-client-jackson2-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-api-client-java6-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-api-client-servlet-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-http-client-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-http-client-android-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-http-client-appengine-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-http-client-gson-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-http-client-jackson2-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-http-client-jdo-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-oauth-client-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-oauth-client-appengine-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-oauth-client-java6-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-oauth-client-jetty-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/google-oauth-client-servlet-1.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/gson-2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/httpclient-4.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/httpcore-4.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/jackson-core-2.1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/jdo2-api-2.3-eb.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/jetty-6.1.26.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/jetty-util-6.1.26.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/jsr305-1.3.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Icaro/Desktop/workspace_dw/trunk/mapsengine/libs/transaction-api-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
