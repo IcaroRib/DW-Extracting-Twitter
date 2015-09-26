@@ -1,3 +1,4 @@
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -75,7 +76,7 @@ public class Database {
 		return 0;
 	}
 	
-	public int inserirPost(Post post){
+	public int inserirPost(Post post) throws UnsupportedEncodingException{
 		
 		try {
 			

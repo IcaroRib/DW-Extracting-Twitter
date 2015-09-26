@@ -31,6 +31,7 @@ public class MapSearch {
 			output.close();
 			JSONObject my_obj = new JSONObject(output.toString());
 			JSONArray arrayResult = my_obj.getJSONArray("results");
+			
 			JSONArray arrayLocal = arrayResult.getJSONObject(0).getJSONArray("address_components");
 			JSONObject objLocal;
 			String cidade = "",estado = "",pais="";

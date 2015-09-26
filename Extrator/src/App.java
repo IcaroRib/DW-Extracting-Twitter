@@ -32,8 +32,13 @@ public class App {
 	public static void main(String[] args) {
 		
 		Extrator ex = new Extrator();
-		ex.ExtrairTweets();		
-	    	    
+		while(true){
+			try{ex.ExtrairTweets();
+			}
+			catch(Exception e){ 
+				continue;
+			}
+		}   
 	}
 
 }

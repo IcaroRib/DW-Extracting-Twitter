@@ -18,7 +18,8 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class Extrator {
 	
-	private String[] hashTags = {"#dilmagolpista","#dilmafica","#pt","#dilma","#foradilma"};
+	//private String[] hashTags = {"#dilmagolpista","#dilmafica","#pt","#dilma","#foradilma"};
+	private String[] hashTags = {"#dilmaralasuamandada"};
 	private ConfigurationBuilder builder = new ConfigurationBuilder();
 	
 	public Post setRecursivo(Status status, String hashtag){
@@ -27,7 +28,7 @@ public class Extrator {
 		if(status.getUser() != null){
 			autor.setDataNascimento(status.getUser().getCreatedAt());
 			autor.setId(status.getUser().getId());
-			autor.setNome(status.getUser().getName().replace("'", ""));
+			autor.setNome(status.getUser().getName().replace("'", "").replaceAll("\\P{Print}", ""));
 			autor.setQtdSeguidores(status.getUser().getFollowersCount());
 			autor.setQtdAmigos(status.getUser().getFriendsCount());
 			autor.setLocal(status.getUser().getLocation().replace("'", ""));
@@ -36,7 +37,7 @@ public class Extrator {
 		Post post = new Post();
 		post.setAssunto("Politica");
 		post.setHashtag(hashtag);
-		post.setConteudo(status.getText().replace("'", ""));
+		post.setConteudo(status.getText().replace("'", "").replaceAll("\\P{Print}", ""));
 		post.setAutor(autor);
 		post.setId(status.getId());
 		post.setData(status.getCreatedAt());
