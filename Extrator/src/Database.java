@@ -11,6 +11,24 @@ public class Database {
 	
 	private Connection conn = ConnectionDB.connect();;
 	
+	public String primeiroInserido(String hashtag){
+		
+		String query = "SELECT data FROM post inner join hashtag WHERE hashtag.idhashtag = post.hashtag_idhashtag and hashtag.hashtag = '" + hashtag + "' LIMIT 1";
+		Statement st;
+		try {
+			st = ((Connection) conn).createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while(rs.next()){
+				return rs.getString("data");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public User procurarUsuario(User user) throws SQLException{
 		
 		String query = "SELECT * FROM usuario_twitter WHERE id_usuario_twitter = " + user.getId();
@@ -42,7 +60,15 @@ public class Database {
 					 "', '" + user.getQtdSeguidores() + "')";
 			Statement st = ((Connection) conn).createStatement();
 			System.out.println(query);
-			st.execute(query);
+			try{
+				st.execute(query);
+			}
+			
+			catch(Exception e){
+				query.replaceAll("[^\\x20-\\x7e]", "");
+				System.out.println(query);
+				st.execute(query);
+			}
 			
 		}
 		
@@ -108,7 +134,15 @@ public class Database {
 					
 					Statement st = ((Connection) conn).createStatement();
 					System.out.println(query);
-					st.execute(query); 
+					try{
+						st.execute(query);
+					}
+					
+					catch(Exception e){
+						query.replaceAll("[^\\x20-\\x7e]", "");
+						System.out.println(query);
+						st.execute(query);
+					}
 					
 					return 0;
 				}
@@ -130,7 +164,15 @@ public class Database {
 					
 					Statement st = ((Connection) conn).createStatement();
 					System.out.println(query);
-					st.execute(query); 
+					try{
+						st.execute(query);
+					}
+					
+					catch(Exception e){
+						query.replaceAll("[^\\x20-\\x7e]", "");
+						System.out.println(query);
+						st.execute(query);
+					}
 					
 					return 0;
 				}

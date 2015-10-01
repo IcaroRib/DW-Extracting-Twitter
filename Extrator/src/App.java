@@ -1,8 +1,10 @@
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -43,9 +45,9 @@ public class App {
 					break;
 				}
 			}
-			catch(Exception e){ 
+			catch(TwitterException | UnsupportedEncodingException e){ 
 				e.printStackTrace();
-				Thread.currentThread().sleep(2000);
+				Thread.currentThread().sleep(900000);
 				continue;
 			}
 		}   

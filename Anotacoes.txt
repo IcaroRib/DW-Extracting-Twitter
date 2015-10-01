@@ -1,0 +1,2 @@
+1° Atualizar os posts/usuários com base no ID que já recolhemos
+2° Encontrar um servidor para rodar o programa o tempo todo

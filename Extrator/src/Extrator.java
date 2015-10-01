@@ -1,4 +1,9 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -19,11 +24,26 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class Extrator {
 	
-	private String[] hashTags = {"#aecio","#lula","#golpeNÃO","#dilmaralasuamandada", "#dilmagolpista","#dilmafica","#pt","#dilma","#foradilma"};
+	private String[] hashTags = {"#dilma","#foradilma","#pt","#aecio","#lula","#golpeNÃO","#dilmaralasuamandada", "#dilmagolpista","#dilmafica"};
 	//private String[] hashTags = {"#dilmaralasuamandada"};
 	private ConfigurationBuilder builder = new ConfigurationBuilder();
 	private Twitter twitter;
-	Database db = new Database();
+	private ArrayList<String> arrayIds = new ArrayList<String>();
+	private Database db = new Database();
+	
+	public void procurarIds() throws IOException{
+		
+		BufferedReader buffRead = new BufferedReader(new FileReader("C:/Users/Icaro/Desktop/workspace_dw/trunk")); 
+		String linha = ""; 
+		while (true) { 
+			if (linha != null) { 
+				arrayIds.add(linha);
+				} 
+			else {
+				break; }
+			linha = buffRead.readLine(); } 
+		buffRead.close();		
+	}
 	
 	public Post setRecursivo(Status status, String hashtag){
 		
@@ -31,7 +51,7 @@ public class Extrator {
 		if(status.getUser() != null){
 			autor.setDataNascimento(status.getUser().getCreatedAt());
 			autor.setId(status.getUser().getId());
-			autor.setNome(status.getUser().getName().replace("'", "").replaceAll("\\P{Print}", ""));
+			autor.setNome(status.getUser().getName().replace("'", "").replaceAll("\\p{C}", ""));
 			autor.setQtdSeguidores(status.getUser().getFollowersCount());
 			autor.setQtdAmigos(status.getUser().getFriendsCount());
 			autor.setLocal(status.getUser().getLocation().replace("'", ""));
@@ -75,21 +95,41 @@ public class Extrator {
 		twitter = factory.getInstance();
 	}
 	
+	
+	public boolean RecuperarTweets(){		
+		
+		for (String id : arrayIds) {	
+			System.out.println(id);
+			try {
+				System.out.println(id);
+				Query query = new Query(id);
+			    QueryResult result;
+			    //toDo		    
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+			
+		}
+		return false;
+		
+	}
 	public boolean ExtrairTweets() throws UnsupportedEncodingException, TwitterException{	
 		
 		for (String hashTag : hashTags) {	
 			System.out.println(hashTag);
 			Query query = new Query(hashTag);
-		    query.setSince("2015-01-01");
+		    query.setSince("2015-09-22");			
+			query.setUntil(db.primeiroInserido(hashTag));
 		    QueryResult result;
 		    long maxId = 0;
 		    int cont = 0;
+		    int cont2 = 0;
 			try {
-				
+			    
 				for (int i = 0; i < 1000; i++) {
-					
-					if (cont > 3){break;}
-					
+										
 					query.setCount(100);
 					if(i !=0){
 						query.setMaxId(maxId);}
@@ -100,6 +140,7 @@ public class Extrator {
 					
 					//System.out.println(result.getTweets().size());
 					if(result.getTweets().size() == 0){
+						System.out.println("Aqui");
 						break;
 					}
 					
@@ -112,12 +153,15 @@ public class Extrator {
 						System.out.println("-------");
 						System.out.println();
 						
-						if (cont > 3){break;}
+						/*if (cont > 10){
+							cont2 +=1;
+							break;}*/
 						
 						
 					}
 				
 				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				continue;
