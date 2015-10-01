@@ -110,7 +110,7 @@ public class Database {
 					System.out.println(query);
 					st.execute(query); 
 					
-					return 1;
+					return 0;
 				}
 			}
 			
@@ -132,7 +132,7 @@ public class Database {
 					System.out.println(query);
 					st.execute(query); 
 					
-					return 1;
+					return 0;
 				}
 			}
 		}
@@ -140,11 +140,8 @@ public class Database {
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-
-			ConnectionDB.desconnect();
-		}
-		return 0;	
+			}
+		return 1;	
 		
 	}
 
@@ -159,7 +156,12 @@ public class Database {
 		}
 		query = "INSERT INTO hashtag(hashtag) VALUES ( '" + post.getHashtag() + "')";
 		System.out.println(query);
-		int idhashtag = st.executeUpdate(query);
+		st.execute(query);
+		rs = st.executeQuery("SELECT * FROM hashtag WHERE hashtag = '" + post.getHashtag() + "'");
+		int idhashtag = 0;
+		while(rs.next()){
+			idhashtag = rs.getInt("idhashtag");
+		}
 		query = "INSERT INTO hashtag_has_assunto_twitter(hashtag_idhashtag,assunto_twitter_id_assunto_twitter) VALUES ( '" + idhashtag + "', ' 1')";
 		System.out.println(query);
 		st.executeUpdate(query);
@@ -185,7 +187,12 @@ public class Database {
 				+ "','" + post.getLocal().getLongitude()
 				+ "')";
 		System.out.println(query);
-		return st.executeUpdate(query);		
+		st.execute(query);
+		rs = st.executeQuery("SELECT * FROM local WHERE latitude = '" + post.getLocal().getLatitude() + "' and longitude = '" + post.getLocal().getLongitude() + "'");
+		while(rs.next()){
+			return rs.getInt("id_local");
+		}
+		return 0;
 		
 	}
 	

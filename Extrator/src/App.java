@@ -29,13 +29,23 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class App {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
 		Extrator ex = new Extrator();
+		ex.gerarConexao();
 		while(true){
-			try{ex.ExtrairTweets();
+			try{				
+				if(ex.ExtrairTweets() == false){
+					Thread.currentThread().sleep(2000);
+					System.out.println("--------------- Todas as hashtags foram baixadas ------------- ");
+					Thread.currentThread().sleep(2000);
+					System.out.println("..................");
+					break;
+				}
 			}
 			catch(Exception e){ 
+				e.printStackTrace();
+				Thread.currentThread().sleep(2000);
 				continue;
 			}
 		}   

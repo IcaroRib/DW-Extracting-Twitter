@@ -1,3 +1,4 @@
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -18,9 +19,11 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class Extrator {
 	
-	//private String[] hashTags = {"#dilmagolpista","#dilmafica","#pt","#dilma","#foradilma"};
-	private String[] hashTags = {"#dilmaralasuamandada"};
+	private String[] hashTags = {"#aecio","#lula","#golpeNÃO","#dilmaralasuamandada", "#dilmagolpista","#dilmafica","#pt","#dilma","#foradilma"};
+	//private String[] hashTags = {"#dilmaralasuamandada"};
 	private ConfigurationBuilder builder = new ConfigurationBuilder();
+	private Twitter twitter;
+	Database db = new Database();
 	
 	public Post setRecursivo(Status status, String hashtag){
 		
@@ -37,7 +40,7 @@ public class Extrator {
 		Post post = new Post();
 		post.setAssunto("Politica");
 		post.setHashtag(hashtag);
-		post.setConteudo(status.getText().replace("'", "").replaceAll("\\P{Print}", ""));
+		post.setConteudo(status.getText().replace("'", "").replaceAll("\\p{C}", ""));
 		post.setAutor(autor);
 		post.setId(status.getId());
 		post.setData(status.getCreatedAt());
@@ -60,7 +63,7 @@ public class Extrator {
 		
 	}
 
-	public Twitter gerarConexao(){
+	public void gerarConexao(){
 
 		builder.setOAuthAccessToken("500104909-6Qxa6wQnjrxXVxPgCrxQdn4WGOv3yTQRd6Ma14jE");
 		builder.setOAuthAccessTokenSecret("YcXUwhngD4V4ArNCJQ0I7DFk68ra7s40NZZACXJS5qLn0");
@@ -69,26 +72,23 @@ public class Extrator {
 		
 		Configuration configuration = builder.build();
 		TwitterFactory factory = new TwitterFactory(configuration);
-		return factory.getInstance();
+		twitter = factory.getInstance();
 	}
 	
-	public void ExtrairTweets(){
+	public boolean ExtrairTweets() throws UnsupportedEncodingException, TwitterException{	
 		
-		Twitter twitter = this.gerarConexao();		
-		Database db = new Database();
-		
-		for (String hashTag : hashTags) {
-			
+		for (String hashTag : hashTags) {	
+			System.out.println(hashTag);
 			Query query = new Query(hashTag);
 		    query.setSince("2015-01-01");
-		    if(hashTag.equals("#dilmagolpista")){
-	    	query.setSince("2015-09-18 20:43:41");
-		    }
 		    QueryResult result;
 		    long maxId = 0;
+		    int cont = 0;
 			try {
 				
-				for (int i = 0; i < 1000; i++) {			
+				for (int i = 0; i < 1000; i++) {
+					
+					if (cont > 3){break;}
 					
 					query.setCount(100);
 					if(i !=0){
@@ -98,27 +98,33 @@ public class Extrator {
 					ArrayList<Post> postsSelecionados = new ArrayList<Post>();
 					System.out.println(result.getCount() * (i+1));
 					
+					//System.out.println(result.getTweets().size());
 					if(result.getTweets().size() == 0){
 						break;
 					}
 					
+					
 					for (Status status : result.getTweets()) {
 						Post post = this.setRecursivo(status,hashTag);
-						db.inserirPost(post);
+						cont += db.inserirPost(post);
 						maxId = post.getId();	
 						System.out.println();
 						System.out.println("-------");
 						System.out.println();
+						
+						if (cont > 3){break;}
 						
 						
 					}
 				
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				continue;
 			}
 			
 		}
+		return false;
 		
 		
 	}
