@@ -1,5 +1,0 @@
-new = new.replace("à","a").replace("á","a").replace("é","e").replace("í","i")
-new = new.replace("á","a").replace("ã","a").replace("â","a").replace("ó","o")
-new = new.replace("ú","u").replace("ô","o").replace("ç","c").replace("õ","o")
-new = new.replace("î","i").replace("û","u").replace("ñ","nao").replace("è","e")
-new = new.replace("ì","i").replace("ü","u")
